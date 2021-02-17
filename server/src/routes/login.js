@@ -7,10 +7,10 @@ module.exports = db => {
  
   router.post('/login', (req, res) => {
     const {email, password} = req.body;
-    console.log("email and password in the router login", email, password)
+    // console.log("email and password in the router login", email, password)
     getUserByEmail(email, db)
       .then(user => {
-        console.log("user in router login",user)
+        // console.log("user in router login",user)
         if (!user) {
           res.send("Email does not exist");
         } else if /*(password !== user['password']) {*/(!bcrypt.compare(password, user['password'])) {

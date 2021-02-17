@@ -3,6 +3,8 @@
 import React from "react";
 import Item from "./Item";
 import ReactWordcloud from 'react-wordcloud';
+
+import Footer from './Footer';
 //import wordcloud2 from 'wordcloud2';
 
  
@@ -47,6 +49,7 @@ export default function ListItems(props) {
     <ul>
       {itemData}
     </ul>
+    {/* <Footer /> */}
     </div>
   );
 

@@ -9,6 +9,8 @@ import Submit from './components/Submit';
 import Account from './components/Account'
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
+import Footer from './components/Footer';
+
 //import ListTopics from './components/SignUp/ListTopics';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
@@ -42,7 +44,7 @@ const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
 useEffect(() => {
   const localUser = localStorage.getItem("user")
-  console.log("LocalUser",localUser)
+  // console.log("LocalUser",localUser)
   setUser(localUser)
 }, [])
 useEffect(() => {
@@ -165,6 +167,30 @@ useEffect(() => {
       })
   };
 
+  const update = (userDeatails, email) => {
+    axios.post('http://localhost:8001/update',{
+      name: userDeatails.name, 
+      last_name: userDeatails.last_name, 
+      birth_date: userDeatails.birth_date, 
+      gender:userDeatails.gender, 
+      profile_pic: userDeatails.profile_pic, 
+      country: userDeatails.country, 
+      region: userDeatails.region, 
+      city: userDeatails.city, 
+      relationship: userDeatails.relationship, 
+      family: userDeatails.family, 
+      email:email
+    })
+    .then(res => {
+      console.log(res.data)
+      setUser(res.data)
+    })
+    .catch(e => {
+      setError(e)
+    })
+
+  }
+
  
 
   const submitItem  = (submittedItem) => {
@@ -206,13 +232,12 @@ useEffect(() => {
     console.log("Favtopic added",res.data);
   })
  }
-
   return ( 
   
   <div >  
     <Router>
       <Navigation email={user.email} logout={logout}/>
-      
+      <body>
       <Switch>
         <Route path="/login">
           {!user.email && <Login login={login}  error={error}/> }
@@ -234,28 +259,17 @@ useEffect(() => {
          <Submit  submitItem ={submitItem}/>
        </Route>
        <Route path="/account">
-         <Account signup={signup} error={error} user={user}/>
-       </Route> 
-      </Switch>
+         <Account update={update} error={error} user={user}/>
+       </Route>  
+      </Switch> 
+        
+      </body>
+      <Footer /> 
       
+   
+     
     </Router>
-
- {/*
-
-       <Navigation />   
-      
-  
-      {(user.email !== '') ? (<div>
-        <h1> Welcome <span>{user.email}</span></h1>
-          <button onClick={Logout}>Logout</button>  
-        </div>
-          ) : <div>
-            <Login login={login} error={error}/> 
-            <SignUp signup={signup} error={error} />
-            </div>}
-            <ListTopics topics={topics} />
-            <ListItems email={user.email} items={items} answerItem={answerItem}/>
-             */}
+   
     </div>
   );
 }

@@ -3,7 +3,7 @@ const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic} = require (
 
 module.exports = db => {
   router.get("/items", (request, response) => {
-    console.log("db in items",db)
+    // console.log("db in items",db)
     db.query(
       `
       SELECT
@@ -17,10 +17,10 @@ module.exports = db => {
 
   router.get('/', (req, res) => {
     const {email, type} = req.body;
-    console.log("email and type in the router items", email, type)
+    // console.log("email and type in the router items", email, type)
     getItemsAndTopicsByUserType(email,type, db)
       .then(items => {
-        console.log("item in router items",items)        
+        // console.log("item in router items",items)        
         res.send(items);
       })
       .catch(e => {
@@ -32,7 +32,7 @@ module.exports = db => {
     
   router.get('/items/:id', (req, res) => {
    
-    console.log("id of item in the router",  Number(req.params.id))
+    // console.log("id of item in the router",  Number(req.params.id))
     db.query(`
       SELECT item 
         FROM items
@@ -53,16 +53,16 @@ module.exports = db => {
     const {creator, item, time, approved, topics} = req.body;
     addItem(creator, item, time, approved, db)
        .then(newItem => {
-        console.log("addItem",newItem)
+        // console.log("addItem",newItem)
        for(let t of topics) {
-        console.log("t",t)
+        // console.log("t",t)
          addTopic(t,db)
          .then(topic => {
-          console.log("addTopic",topic)
+          // console.log("addTopic",topic)
          // if(newItem && topic) {
             addItemTopic(newItem.id,topic.id, db);
          // }
-          console.log("topic in route",topic);
+          // console.log("topic in route",topic);
          })
          }
        })

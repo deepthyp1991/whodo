@@ -9,7 +9,7 @@ module.exports = db => {
         FROM users;
     `
     ).then(({ rows: users }) => {
-      console.log("users.js")
+      // console.log("users.js")
       response.json(users);
     });
   });

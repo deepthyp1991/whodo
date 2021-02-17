@@ -21,7 +21,7 @@ const addUser = (userData, db) => {
     RETURNING *;
     `, [name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family])
     .then(res => {
-      console.log(res.rows[0])
+      // console.log(res.rows[0])
       return res.rows[0];
     })
     .catch(e => {
@@ -60,8 +60,8 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
   
   return db.query(sql)
     .then(res => {
-      console.log("query of getitemsbyusertype",sql)
-      console.log("res in function getItemByUserType",res.rows)
+      // console.log("query of getitemsbyusertype",sql)
+      // console.log("res in function getItemByUserType",res.rows)
       
       return res.rows;
     })
@@ -98,13 +98,13 @@ const getNbAnswersByItem = (item) => {
   let click = 0;
 const addItem =  (creator,item,time,approved,db) => {
  click++;
- console.log ("click", click);
+//  console.log ("click", click);
   db.query(`INSERT INTO items (creator_id, item, time, approved)
   VALUES ($1, $2, $3, $4)
   RETURNING *;`, 
   [creator, item, time, approved])
   .then(res => {
-    console.log("item added in the function addItem",res.rows[0])
+    // console.log("item added in the function addItem",res.rows[0])
     return res.rows[0];
   })
   .catch(e => {
@@ -113,26 +113,26 @@ const addItem =  (creator,item,time,approved,db) => {
   });
 }
   const addTopic = (t,db) => {
-    console.log("topic",t)
+    // console.log("topic",t)
     db.query(`SELECT * FROM topics 
     WHERE topic = $1;`, [t])
     .then(res => {
      
       if (res.rows.length === 0) {
-        console.log("res of 1st query",res.rows)
+        // console.log("res of 1st query",res.rows)
           db.query(`INSERT INTO topics (topic)
             VALUES ($1)
             RETURNING *;`, 
             [t])
         .then(res1 => {
-              console.log("topic id added in the function addTopic",res1.rows[0])
+              // console.log("topic id added in the function addTopic",res1.rows[0])
               return res1.rows[0];
             })
         .catch(e => {
               return null;
             });
       } else {
-        console.log("line 131 of addTopic");
+        // console.log("line 131 of addTopic");
         return res.rows[0];
       }
     })
@@ -140,13 +140,13 @@ const addItem =  (creator,item,time,approved,db) => {
    
   }
 const addItemTopic =  (item_id,topic_id,db) => {
-  console.log("i am here")
+  // console.log("i am here")
 db.query(`INSERT INTO item_topics (item_id, topic_id)
 VALUES ($1,$2)
 RETURNING *;`, 
 [item_id, topic_id])
 .then(res => {
-  console.log("Association item_topics added in the function addItemTopic",res.rows[0])
+  // console.log("Association item_topics added in the function addItemTopic",res.rows[0])
   return res.rows[0];
 })
 .catch(e => {
@@ -160,12 +160,27 @@ const addUserTopic = (user_id, topic_id, db) => {
   RETURNING *;`, 
 [user_id, topic_id])
 .then(res => {
-  console.log("Association user_topics added in the function addFavTopic",res.rows[0])
+  // console.log("Association user_topics added in the function addFavTopic",res.rows[0])
   return res.rows[0];
 })
 .catch(e => {
   return null;
 });
+}
+
+const updateUser = (userdata, db) => {
+  const {name, last_name, birth_date, gender, profile_pic, country, region, city,  relationship, family, email} = userdata;
+  return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4,  profile_pic = $5, country = $6, region = $7, city = $8, relationship = $9, family = $10 WHERE email = $11 returning *;`, [name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email])
+  .then(res => {
+    console.log(res)
+    return res.rows[0]
+  })
+  .catch(e => {
+    console.log(e)
+    return null;
+  })
+
+
 }
 module.exports = {
   getUserByEmail,
@@ -176,5 +191,6 @@ module.exports = {
   addItem,
   addTopic,
   addItemTopic,
-  addUserTopic
+  addUserTopic, 
+  updateUser
 };

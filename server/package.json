@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test:server": "NODE_ENV=test npm start",
-    "start": "node ./src/index.js",
+    "start": "nodemon ./src/index.js",
     "error": "TEST_ERROR=true node ./src/index.js",
     "reset": "psql -U development -d whodo_development < ./src/db/schema/create.sql && psql -U development -d whodo_development < ./src/db/schema/seeds.sql"
   },
@@ -20,6 +20,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "helmet": "^3.18.0",
+    "nodemon": "^2.0.7",
     "pg": "^8.5.0",
     "socket.io": "^2.2.0",
     "ws": "^7.0.0"

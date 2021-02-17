@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 
 
 export default function Update(props) {
-  const{user, signup, details, setDetails, error} = props;
-  setDetails(user)
+  const{user, update, error, onUpdate} = props;
+  const [details, setDetails] = useState(user)
+
   const submitHandler = event => {
     event.preventDefault();
-    signup(details);
-  };
+    update(details, user.email)
+     onUpdate()
+ };
   
   return (
     <form className = "form-signup" onSubmit={submitHandler}>
@@ -22,16 +24,18 @@ export default function Update(props) {
         <input type="password" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
       </div> */}
       <div style={{ marginTop: 10 }}>
+       <label for="img">Select image:</label>
+       <input type="file" id="img" name="img" accept="image/*"  /><br /><br />
         <label for = "name">Name</label><br />
-        <input type="text"  value={user.name} onChange={event => setDetails({...details, name:event.target.value})}/>
+        <input type="text"  value={details.name} onChange={event => {setDetails({...details, name:event.target.value})}}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Last name</label><br />
-        <input type="text" value={user.last_name} onChange={event => setDetails({...details, last_name:event.target.value})}/>
+        <input type="text" value={details.last_name} onChange={event => setDetails({...details, last_name:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Date of birth</label><br />
-        <input type="date" value={user.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>
+        <input type="date" value={details.birth_date.includes('T') ? details.birth_date.slice(0, details.birth_date.indexOf('T')) : details.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label>Gender</label><br />
@@ -58,7 +62,7 @@ export default function Update(props) {
         <input type="text" value={details.family} onChange={event => setDetails({...details, family:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-      <button type="submit" value ="Register" className = "signup-button">Register</button>
+      <button type="submit" value ="Register" className = "signup-button" >Register  </button>
       </div>
     </form>
   );

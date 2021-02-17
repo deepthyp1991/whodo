@@ -2,6 +2,8 @@
 import React from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
+
+
 //import AnswerItem from "./AnswerItem"
 //import useVisualMode from "../hooks/useVisualMode"
 
@@ -45,37 +47,17 @@ const itemAnswer = {
 }
 
 export default function Item(props) {
-
- 
-/*
-  const ITEM = "ITEM";
-  const ANSWER = "ANSWER";
-
-
-  const { mode, transition, back } = useVisualMode(ITEM);*/
   let topics=' #'+ props.topics.replace('/',' #');
   let answers =' ' + props.answers + ' answers';
-  
-  
   return (
+    <>
     <div style={itemCard}> 
-​
     <div>{props.item}</div>
     <div style={itemTopic}>{topics}</div>
     <div style={itemAnswer}>{answers}</div>
     <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem(props.item)}>Answer</Link>
-    
-   
-    
-     {/* <button className = "btn"><i className = "fa-envelope"></i>Answers</button>
-     {mode === ITEM && <div>{props.item}{topics}{answers}
-     <button onClick={() => transition(ANSWER)}>Answer</button> </div>}
-     {mode === ANSWER && <AnswerItem item={props.item} />}
-     
-      {props.item}{topics}{answers}
-      <button onClick={() => answerItem(props.id)}>Answer</button> 
-      */}  
-   
     </div>
+   
+    </>
   )
 }
